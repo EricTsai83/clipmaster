@@ -1,19 +1,34 @@
-import { join } from 'node:path';
-import { pathToFileURL } from 'node:url';
-import { app, BrowserWindow, net, protocol, session } from 'electron';
-import started from 'electron-squirrel-startup';
-import { APP_URL, resolveAppAsset } from './app-url';
+import { join } from "node:path";
+import { pathToFileURL } from "node:url";
+import { app, BrowserWindow, net, protocol, session } from "electron";
+import started from "electron-squirrel-startup";
+import { APP_URL, resolveAppAsset } from "./app-url";
 
 protocol.registerSchemesAsPrivileged([
-  { scheme: 'clipmaster', privileges: { standard: true, secure: true, supportFetchAPI: true, corsEnabled: true } },
+  {
+    scheme: "clipmaster",
+    privileges: {
+      standard: true,
+      secure: true,
+      supportFetchAPI: true,
+      corsEnabled: true,
+    },
+  },
 ]);
 
-const developmentUrl = !app.isPackaged ? MAIN_WINDOW_VITE_DEV_SERVER_URL : undefined;
+const developmentUrl = !app.isPackaged
+  ? MAIN_WINDOW_VITE_DEV_SERVER_URL
+  : undefined;
 
 const createWindow = () => {
   const mainWindow = new BrowserWindow({
     width: 400,
     height: 600,
+    minHeight: 400,
+    minWidth: 300,
+    maxHeight: 800,
+    maxWidth: 450,
+    maximizable: false,
     webPreferences: {
       contextIsolation: true,
       sandbox: true,
@@ -22,15 +37,15 @@ const createWindow = () => {
     },
   });
 
-  mainWindow.webContents.setWindowOpenHandler(() => ({ action: 'deny' }));
-  mainWindow.webContents.on('will-navigate', (event) => event.preventDefault());
-  mainWindow.webContents.on('will-redirect', (event) => event.preventDefault());
+  mainWindow.webContents.setWindowOpenHandler(() => ({ action: "deny" }));
+  mainWindow.webContents.on("will-navigate", (event) => event.preventDefault());
+  mainWindow.webContents.on("will-redirect", (event) => event.preventDefault());
   void mainWindow.loadURL(developmentUrl ?? APP_URL).catch((error: unknown) => {
-    console.error('Unable to load Clipmaster', error);
+    console.error("Unable to load Clipmaster", error);
     app.quit();
   });
 
-  if (developmentUrl) mainWindow.webContents.openDevTools({ mode: 'detach' });
+  if (developmentUrl) mainWindow.webContents.openDevTools({ mode: "detach" });
 
   return mainWindow;
 };
@@ -39,34 +54,43 @@ if (started) {
   // Squirrel runs the executable to create/remove Windows shortcuts.
   app.quit();
 } else {
-  void app.whenReady().then(() => {
-    session.defaultSession.setPermissionRequestHandler((_contents, _permission, callback) => callback(false));
-    session.defaultSession.setPermissionCheckHandler(() => false);
-    const rendererRoot = join(__dirname, `../renderer/${MAIN_WINDOW_VITE_NAME}`);
-    protocol.handle('clipmaster', async (request) => {
-      if (request.method !== 'GET') return new Response('Method not allowed', { status: 405 });
-      const asset = resolveAppAsset(request.url, rendererRoot);
-      if (!asset) return new Response('Forbidden', { status: 403 });
-      try {
-        return await net.fetch(pathToFileURL(asset).toString());
-      } catch {
-        return new Response('Not found', { status: 404 });
-      }
+  void app
+    .whenReady()
+    .then(() => {
+      session.defaultSession.setPermissionRequestHandler(
+        (_contents, _permission, callback) => callback(false),
+      );
+      session.defaultSession.setPermissionCheckHandler(() => false);
+      const rendererRoot = join(
+        __dirname,
+        `../renderer/${MAIN_WINDOW_VITE_NAME}`,
+      );
+      protocol.handle("clipmaster", async (request) => {
+        if (request.method !== "GET")
+          return new Response("Method not allowed", { status: 405 });
+        const asset = resolveAppAsset(request.url, rendererRoot);
+        if (!asset) return new Response("Forbidden", { status: 403 });
+        try {
+          return await net.fetch(pathToFileURL(asset).toString());
+        } catch {
+          return new Response("Not found", { status: 404 });
+        }
+      });
+      createWindow();
+    })
+    .catch((error: unknown) => {
+      console.error("Unable to initialize Clipmaster", error);
+      app.quit();
     });
-    createWindow();
-  }).catch((error: unknown) => {
-    console.error('Unable to initialize Clipmaster', error);
-    app.quit();
-  });
 }
 
-app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') {
+app.on("window-all-closed", () => {
+  if (process.platform !== "darwin") {
     app.quit();
   }
 });
 
-app.on('activate', () => {
+app.on("activate", () => {
   if (!started && app.isReady() && BrowserWindow.getAllWindows().length === 0) {
     createWindow();
   }
