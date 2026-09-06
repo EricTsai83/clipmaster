@@ -19,9 +19,10 @@
     "sourceMap": true,
     "strict": true,
     "target": "ESNext",
-    "jsx": "react",
+    "jsx": "react-jsx",
+    "allowImportingTsExtensions": true,
     "tsBuildInfoFile": "./.cache/tsconfig.tsbuildinfo",
     "useDefineForClassFields": true,
   },
-  "include": ["**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx", "**/*.json"]
+  "include": ["src", "tests"]
 }

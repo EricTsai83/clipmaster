@@ -1,4 +1,4 @@
-type Clipping = {
+export type Clipping = {
   id: string;
   type?: string;
   value: string;
@@ -11,7 +11,7 @@ type RemoveClippingAction = {
 
 type AddClippingAction = {
   type: 'add';
-  value: string;
+  clipping: Clipping;
 };
 
 type UpdateClippingAction = {
@@ -20,7 +20,7 @@ type UpdateClippingAction = {
   value: string;
 };
 
-type ClippingAction =
+export type ClippingAction =
   | RemoveClippingAction
   | AddClippingAction
   | UpdateClippingAction;

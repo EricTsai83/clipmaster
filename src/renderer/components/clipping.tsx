@@ -1,15 +1,16 @@
-import React from 'react';
+import type { HTMLAttributes } from 'react';
+import type { Clipping } from '../../clipping';
 
 type ClippingProps = Clipping & {
   onRemove: (id: string) => void;
   onCopy?: (content: string) => void;
-} & Omit<React.HTMLAttributes<HTMLElement>, 'id' | 'onCopy'>;
+} & Omit<HTMLAttributes<HTMLElement>, 'id' | 'onCopy'>;
 
 const Clipping = ({
   value,
   id,
   onRemove,
-  onCopy = () => {},
+  onCopy,
   ...props
 }: ClippingProps) => {
   return (
@@ -28,7 +29,8 @@ const Clipping = ({
         </button>
         <button
           className="px-2 py-1 text-white rounded-none"
-          onClick={() => onCopy(value)}
+          disabled={!onCopy}
+          onClick={() => onCopy?.(value)}
         >
           Copy
         </button>

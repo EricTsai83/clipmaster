@@ -1,13 +1,14 @@
 import clsx from 'clsx';
-import React from 'react';
+import type { ComponentProps } from 'react';
 
 const CopyFromClipboard = ({
   className,
   ...props
-}: React.ComponentProps<'button'>) => {
+}: ComponentProps<'button'>) => {
   return (
-    <div className="flex border-b-2 shadow-md border-primary-700">
+    <div className="flex shrink-0 border-b-2 shadow-md border-primary-700">
       <button
+        disabled={!props.onClick}
         className={clsx('flex-1 w-full rounded-none text-white', className)}
         {...props}
       >

@@ -1,5 +1,9 @@
 allowBuilds:
   electron: true
   electron-winstaller: true
-  esbuild: true
 nodeLinker: hoisted
+# Forge 7 still requests obsolete build tools. Keep these exact versions until
+# Forge adopts them; revalidate packaging when changing these overrides.
+overrides:
+  '@electron/rebuild': 4.2.0
+  'tmp@<0.2.7': 0.2.7

@@ -1,25 +1,6 @@
 import { useCallback, useReducer } from 'react';
-import { v4 as uuid } from 'uuid';
-
-const createClipping = (value: string): Clipping => {
-  return {
-    id: uuid(),
-    value,
-  };
-};
-
-const clippingReducer = (clippings: Clipping[], action: ClippingAction) => {
-  switch (action.type) {
-    case 'remove':
-      return clippings.filter((c) => c.id !== action.id);
-    case 'add':
-      return [createClipping(action.value), ...clippings];
-    case 'update':
-      return clippings.map((c) =>
-        c.id === action.id ? { ...c, value: action.value } : c,
-      );
-  }
-};
+import type { Clipping } from '../clipping';
+import { clippingReducer, createClipping } from './clipping-state';
 
 export const useClippings = (initialClippings: Clipping[] = []) => {
   const [clippings, dispatch] = useReducer(clippingReducer, initialClippings);
@@ -27,7 +8,7 @@ export const useClippings = (initialClippings: Clipping[] = []) => {
   const addClipping = useCallback(
     (value: Clipping['value']) => {
       const clipping = createClipping(value);
-      return dispatch({ type: 'add', value: clipping.value });
+      dispatch({ type: 'add', clipping });
     },
     [dispatch],
   );
