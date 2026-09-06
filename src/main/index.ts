@@ -8,6 +8,7 @@ import {
   session,
   clipboard,
   ipcMain,
+  globalShortcut,
 } from "electron";
 import started from "electron-squirrel-startup";
 import { APP_URL, resolveAppAsset } from "./app-url";
@@ -93,6 +94,21 @@ if (started) {
       app.quit();
     });
 }
+
+app.on("ready", () => {
+  createWindow();
+  const browserWindow = createWindow();
+
+  globalShortcut.register("CommandOrControl+Shift+Alt+C", () => {
+    app.focus();
+    browserWindow.show();
+    browserWindow.focus();
+  });
+});
+
+app.on("quit", () => {
+  globalShortcut.unregisterAll();
+});
 
 app.on("window-all-closed", () => {
   if (process.platform !== "darwin") {
