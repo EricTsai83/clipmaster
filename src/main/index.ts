@@ -29,6 +29,8 @@ const createWindow = () => {
     maxHeight: 800,
     maxWidth: 450,
     maximizable: false,
+    titleBarStyle: "hidden",
+    titleBarOverlay: true,
     webPreferences: {
       contextIsolation: true,
       sandbox: true,

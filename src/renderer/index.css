@@ -13,81 +13,98 @@
   --color-primary-900: #57246b;
   --color-primary-950: #350c46;
   --color-primary: #ad59dc;
-  --color-success-50: #6BE6D6;
-  --color-success-100: #5AE3D1;
-  --color-success-200: #37DDC7;
-  --color-success-300: #22C8B3;
-  --color-success-400: #1CA594;
+  --color-success-50: #6be6d6;
+  --color-success-100: #5ae3d1;
+  --color-success-200: #37ddc7;
+  --color-success-300: #22c8b3;
+  --color-success-400: #1ca594;
   --color-success-500: #168375;
-  --color-success-600: #0E534A;
-  --color-success-700: #06231F;
+  --color-success-600: #0e534a;
+  --color-success-700: #06231f;
   --color-success-800: #000000;
   --color-success-900: #000000;
   --color-success: #168375;
-  --color-info-50: #CCDFF0;
-  --color-info-100: #BCD6EB;
-  --color-info-200: #9DC2E1;
-  --color-info-300: #7EAFD8;
-  --color-info-400: #5E9BCE;
-  --color-info-500: #3F88C5;
-  --color-info-600: #2F6B9D;
-  --color-info-700: #224D72;
+  --color-info-50: #ccdff0;
+  --color-info-100: #bcd6eb;
+  --color-info-200: #9dc2e1;
+  --color-info-300: #7eafd8;
+  --color-info-400: #5e9bce;
+  --color-info-500: #3f88c5;
+  --color-info-600: #2f6b9d;
+  --color-info-700: #224d72;
   --color-info-800: #153046;
-  --color-info-900: #08131B;
-  --color-info: #3F88C5;
-  --color-warning-50: #FFEDC0;
-  --color-warning-100: #FFE8AB;
-  --color-warning-200: #FFDC82;
-  --color-warning-300: #FFD15A;
-  --color-warning-400: #FFC531;
-  --color-warning-500: #FFBA08;
-  --color-warning-600: #CF9500;
-  --color-warning-700: #976D00;
-  --color-warning-800: #5F4400;
-  --color-warning-900: #271C00;
-  --color-warning: #FFBA08;
-  --color-error-50: #FF8989;
-  --color-error-100: #FF7474;
-  --color-error-200: #FF4B4B;
-  --color-error-300: #FF2323;
-  --color-error-400: #F90000;
-  --color-error-500: #D00000;
+  --color-info-900: #08131b;
+  --color-info: #3f88c5;
+  --color-warning-50: #ffedc0;
+  --color-warning-100: #ffe8ab;
+  --color-warning-200: #ffdc82;
+  --color-warning-300: #ffd15a;
+  --color-warning-400: #ffc531;
+  --color-warning-500: #ffba08;
+  --color-warning-600: #cf9500;
+  --color-warning-700: #976d00;
+  --color-warning-800: #5f4400;
+  --color-warning-900: #271c00;
+  --color-warning: #ffba08;
+  --color-error-50: #ff8989;
+  --color-error-100: #ff7474;
+  --color-error-200: #ff4b4b;
+  --color-error-300: #ff2323;
+  --color-error-400: #f90000;
+  --color-error-500: #d00000;
   --color-error-600: #980000;
   --color-error-700: #600000;
   --color-error-800: #280000;
   --color-error-900: #000000;
-  --color-error: #D00000;
-  --font-sans: -apple-system, ui-sans-serif, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
-  --font-serif: ui-serif, "Iowan Old Style", "Apple Garamond", Baskerville, "Times New Roman", "Droid Serif", Times, "Source Serif Pro", serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-  --font-mono: ui-monospace, Menlo, Monaco, "Cascadia Mono", "Segoe UI Mono", "Roboto Mono", "Oxygen Mono", "Ubuntu Monospace", "Source Code Pro", "Fira Mono", "Droid Sans Mono", "Courier New", monospace;
+  --color-error: #d00000;
+  --font-sans:
+    -apple-system, ui-sans-serif, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  --font-serif:
+    ui-serif, "Iowan Old Style", "Apple Garamond", Baskerville,
+    "Times New Roman", "Droid Serif", Times, "Source Serif Pro", serif,
+    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  --font-mono:
+    ui-monospace, Menlo, Monaco, "Cascadia Mono", "Segoe UI Mono",
+    "Roboto Mono", "Oxygen Mono", "Ubuntu Monospace", "Source Code Pro",
+    "Fira Mono", "Droid Sans Mono", "Courier New", monospace;
 }
 
 @layer base {
-html, body {
-  @apply w-screen h-screen overflow-hidden;
+  html,
+  body {
+    @apply w-screen h-screen overflow-hidden;
+  }
+
+  body {
+    @apply bg-white text-slate-900;
+  }
+
+  input,
+  button {
+    @apply m-0 text-sm;
+  }
+
+  input {
+    @apply border-2 border-primary-700 bg-primary-100 p-2 placeholder-primary-400 accent-primary-600 shadow-xs transition-all ease-in invalid:border-error-800 invalid:bg-error-200 hover:bg-primary-200 focus:bg-primary-50 disabled:border-slate-500 disabled:bg-slate-100 disabled:placeholder-slate-400;
+  }
+
+  button {
+    @apply inline-flex text-xs items-center justify-center rounded-md px-4 py-2 transition-all ease-in whitespace-nowrap bg-primary-500 hover:bg-primary-600 active:bg-primary-700 disabled:bg-primary-200 disabled:text-primary-700 shadow-xs hover:shadow-md disabled:hover:shadow-xs disabled:cursor-not-allowed;
+  }
+
+  input:focus-visible,
+  button:focus-visible {
+    @apply outline-2 outline-offset-2 outline-primary-700;
+  }
+
+  button[type="submit"] {
+    @apply font-semibold text-white;
+  }
 }
 
-body {
-  @apply bg-white text-slate-900;
-}
-
-input, button {
-  @apply m-0 text-sm;
-}
-
-input {
-  @apply border-2 border-primary-700 bg-primary-100 p-2 placeholder-primary-400 accent-primary-600 shadow-xs transition-all ease-in invalid:border-error-800 invalid:bg-error-200 hover:bg-primary-200 focus:bg-primary-50 disabled:border-slate-500 disabled:bg-slate-100 disabled:placeholder-slate-400;
-}
-
-button {
-  @apply inline-flex text-xs items-center justify-center rounded-md px-4 py-2 transition-all ease-in whitespace-nowrap bg-primary-500 hover:bg-primary-600 active:bg-primary-700 disabled:bg-primary-200 disabled:text-primary-700 shadow-xs hover:shadow-md disabled:hover:shadow-xs disabled:cursor-not-allowed;
-}
-
-input:focus-visible, button:focus-visible {
-  @apply outline-2 outline-offset-2 outline-primary-700;
-}
-
-button[type="submit"] {
-  @apply font-semibold text-white;
-}
+#title-bar {
+  -webkit-app-region: drag;
+  user-select: none;
 }
