@@ -10,9 +10,13 @@ import {
   ipcMain,
   globalShortcut,
   Notification,
+  Tray,
+  Menu,
 } from "electron";
 import started from "electron-squirrel-startup";
 import { APP_URL, resolveAppAsset } from "./app-url";
+
+let tray: Tray | null = null;
 
 protocol.registerSchemesAsPrivileged([
   {
@@ -99,6 +103,24 @@ if (started) {
 app.on("ready", () => {
   createWindow();
   const browserWindow = createWindow();
+
+  const contextMenu = Menu.buildFromTemplate([
+    {
+      label: "Show Window",
+      click: () => {
+        app.focus();
+        browserWindow.show();
+        browserWindow.focus();
+      },
+    },
+    {
+      label: "Quit",
+      role: "quit",
+    },
+  ]);
+
+  tray = new Tray("./src/icons/trayTemplate.png");
+  tray.setContextMenu(contextMenu);
 
   globalShortcut.register("CommandOrControl+Shift+Alt+C", () => {
     app.focus();
