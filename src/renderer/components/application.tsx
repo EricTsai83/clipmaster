@@ -1,7 +1,7 @@
-import CreateClipping from './create-clipping';
-import Clipping from './clipping';
-import { useClippings } from '../use-clipping';
-import CopyFromClipboard from './copy-from-clipboard';
+import CreateClipping from "./create-clipping";
+import Clipping from "./clipping";
+import { useClippings } from "../use-clipping";
+import CopyFromClipboard from "./copy-from-clipboard";
 
 const Application = () => {
   const { clippings, addClipping, removeClipping } = useClippings();
@@ -25,7 +25,12 @@ const Application = () => {
           />
         ))}
       </section>
-      <CopyFromClipboard />
+      <CopyFromClipboard
+        onClick={async () => {
+          const content = await window.api.readFromClipboard();
+          addClipping(content);
+        }}
+      />
     </main>
   );
 };

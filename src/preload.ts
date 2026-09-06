@@ -4,7 +4,7 @@ const api = {
   writeToClipboard: (content: string) => {
     ipcRenderer.send("write-to-clipboard", content);
   },
-  readFromClipboard: () => {
+  readFromClipboard: (): Promise<string> => {
     return ipcRenderer.invoke("read-from-clipboard");
   },
 } as const;
