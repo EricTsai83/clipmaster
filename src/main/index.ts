@@ -9,6 +9,7 @@ import {
   clipboard,
   ipcMain,
   globalShortcut,
+  Notification,
 } from "electron";
 import started from "electron-squirrel-startup";
 import { APP_URL, resolveAppAsset } from "./app-url";
@@ -103,6 +104,18 @@ app.on("ready", () => {
     app.focus();
     browserWindow.show();
     browserWindow.focus();
+  });
+
+  globalShortcut.register("CommandOrControl+Shift+Alt+X", async () => {
+    let content = await clipboard.readText();
+    content = content.toUpperCase();
+
+    clipboard.writeText(content);
+    new Notification({
+      title: "Capitalized Clipboard",
+      subtitle: "Copied to clipboard",
+      body: content,
+    }).show();
   });
 });
 
