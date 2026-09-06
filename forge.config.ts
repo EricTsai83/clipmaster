@@ -1,7 +1,13 @@
-const { resolve } = require('node:path');
-const { flipFuses, FuseV1Options, FuseVersion } = require('@electron/fuses');
+import { resolve } from 'node:path';
+import { flipFuses, FuseV1Options, FuseVersion } from '@electron/fuses';
+import type { ForgeConfig } from '@electron-forge/shared-types';
+import { MakerDeb } from '@electron-forge/maker-deb';
+import { MakerRpm } from '@electron-forge/maker-rpm';
+import { MakerSquirrel } from '@electron-forge/maker-squirrel';
+import { MakerZIP } from '@electron-forge/maker-zip';
+import { VitePlugin } from '@electron-forge/plugin-vite';
 
-module.exports = {
+const config: ForgeConfig = {
   packagerConfig: { asar: true },
   rebuildConfig: {},
   hooks: {
@@ -22,41 +28,28 @@ module.exports = {
     },
   },
   makers: [
-    {
-      name: '@electron-forge/maker-squirrel',
-      config: {},
-    },
-    {
-      name: '@electron-forge/maker-zip',
-      platforms: ['darwin'],
-    },
-    {
-      name: '@electron-forge/maker-deb',
-      config: {},
-    },
-    {
-      name: '@electron-forge/maker-rpm',
-      config: {},
-    },
+    new MakerSquirrel({}),
+    new MakerZIP({}, ['darwin']),
+    new MakerDeb({}),
+    new MakerRpm({}),
   ],
   plugins: [
-    {
-      name: '@electron-forge/plugin-vite',
-      config: {
-        build: [
-          {
-            entry: 'src/main/index.ts',
-            config: 'vite.main.config.mjs',
-            target: 'main',
-          },
-        ],
-        renderer: [
-          {
-            name: 'main_window',
-            config: 'vite.renderer.config.mjs',
-          },
-        ],
-      },
-    },
+    new VitePlugin({
+      build: [
+        {
+          entry: 'src/main/index.ts',
+          config: 'vite.main.config.ts',
+          target: 'main',
+        },
+      ],
+      renderer: [
+        {
+          name: 'main_window',
+          config: 'vite.renderer.config.ts',
+        },
+      ],
+    }),
   ],
 };
+
+export default config;

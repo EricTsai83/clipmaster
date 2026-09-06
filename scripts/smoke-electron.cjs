@@ -50,5 +50,5 @@ if (!process.versions.electron) {
       }
     });
   });
-  require(resolve(__dirname, '../.vite/build/main.js'));
+  require(resolve(__dirname, '../.vite/build/main.cjs'));
 }

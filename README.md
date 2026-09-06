@@ -90,11 +90,11 @@ src/
   clipping.d.ts           Shared snippet types
 tests/                    Unit tests
 scripts/smoke-electron.cjs Electron smoke test
-forge.config.js           Packaging, makers, and security fuses
-vite.*.config.mjs         Main-process and renderer build settings
+forge.config.ts           Packaging, makers, and security fuses
+vite.*.config.ts          Main-process and renderer build settings
 ```
 
-The main process builds to CommonJS. React uses the automatic JSX transform, and Tailwind 4 theme tokens live in `src/renderer/index.css`. There is no preload or IPC bridge yet; future native features should use a limited bridge rather than enabling Node.js in the renderer.
+The package uses ESM by default (`"type": "module"`). Application code and Forge/Vite configurations use TypeScript and are included in type checking. Forge uses typed maker and plugin instances. The main process builds to `.vite/build/main.cjs` as CommonJS; generated output is ignored by Git. The Electron smoke-test launcher uses `.cjs` to run directly in Node and Electron. React uses the automatic JSX transform, and Tailwind 4 theme tokens live in `src/renderer/index.css`. There is no preload or IPC bridge yet; future native features should use a limited bridge rather than enabling Node.js in the renderer.
 
 ## Security and known issues
 
