@@ -3,7 +3,6 @@
     "allowJs": false,
     "allowSyntheticDefaultImports": true,
     "composite": true,
-    "esModuleInterop": false,
     "forceConsistentCasingInFileNames": true,
     "incremental": true,
     "isolatedModules": true,

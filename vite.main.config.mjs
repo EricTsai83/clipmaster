@@ -5,6 +5,7 @@ export default defineConfig({
     lib: {
       entry: './src/main',
       fileName: 'main',
+      formats: ['cjs'],
     },
   },
   resolve: {
