@@ -3,6 +3,7 @@
   "productName": "Clipmaster",
   "version": "1.0.0",
   "description": "An application for keeping track of your clipboard history.",
+  "packageManager": "pnpm@10.33.4",
   "main": ".vite/build/main.js",
   "scripts": {
     "start": "electron-forge start",
