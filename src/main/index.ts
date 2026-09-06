@@ -1,6 +1,14 @@
 import { join } from "node:path";
 import { pathToFileURL } from "node:url";
-import { app, BrowserWindow, net, protocol, session } from "electron";
+import {
+  app,
+  BrowserWindow,
+  net,
+  protocol,
+  session,
+  clipboard,
+  ipcMain,
+} from "electron";
 import started from "electron-squirrel-startup";
 import { APP_URL, resolveAppAsset } from "./app-url";
 
@@ -96,4 +104,12 @@ app.on("activate", () => {
   if (!started && app.isReady() && BrowserWindow.getAllWindows().length === 0) {
     createWindow();
   }
+});
+
+ipcMain.on("write-to-clipboard", (_, content: string) => {
+  clipboard.writeText(content);
+});
+
+ipcMain.handle("read-from-clipboard", (_) => {
+  return clipboard.readText();
 });
